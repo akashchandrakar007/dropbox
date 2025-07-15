@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const API = 'http://localhost:5000/api/files';
+const allowedTypes = ['text/plain', 'application/json', 'image/png', 'image/jpeg'];
 
 function App() {
   const [files, setFiles] = useState([]);
@@ -14,6 +15,11 @@ function App() {
 
   const upload = async () => {
     if (!selectedFile) return;
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+    alert('❌ Invalid file type. Allowed: txt, json, png, jpg');
+    return;
+  }
     const formData = new FormData();
     formData.append('file', selectedFile);
     await axios.post(`${API}/upload`, formData, {
@@ -57,7 +63,7 @@ function App() {
               <a
                 href={`http://localhost:5000/uploads/${file}`}
                 target="_blank"
-                // rel="noopener noreferrer"
+                rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
                 {file}
