@@ -1,17 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
-const uploadFile = (req, res) => {
-  if (!req.file) return res.status(400).send('No file uploaded');
+const File = require('../models/File');
+
+const uploadFile = async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+  const fileData = new File({
+    originalName: req.file.originalname,
+    storedName: req.file.filename,
+    mimetype: req.file.mimetype,
+    size: req.file.size,
+    path: req.file.path,
+  });
+
+  await fileData.save();
+
   res.status(200).json({ filename: req.file.filename });
 };
 
-const getAllFiles = (req, res) => {
-  const dir = './uploads';
-  fs.readdir(dir, (err, files) => {
-    if (err) return res.status(500).send('Unable to scan files');
-    res.json(files);
-  });
+const getAllFiles = async (req, res) => {
+  const files = await File.find().sort({ uploadDate: -1 });
+  res.json(files);
 };
 
 const downloadFile = (req, res) => {

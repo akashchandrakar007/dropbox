@@ -57,20 +57,24 @@ function App() {
         </div>
 
         <h2 className="text-lg font-semibold mb-2">Your Files:</h2>
-        <ul className="space-y-2">
-          {files.map((file, i) => (
-            <li key={i}>
-              <a
-                href={`http://localhost:5000/uploads/${file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                {file}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <ul className="space-y-2">
+  {files.map((file, i) => (
+    <li key={i}>
+      <a
+        href={`http://localhost:5000/uploads/${file.storedName}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:underline"
+      >
+        {file.originalName}
+      </a>
+      <span className="text-gray-500 text-sm ml-2">
+        ({Math.round(file.size / 1024)} KB, {file.mimetype})
+      </span>
+    </li>
+  ))}
+</ul>
+
       </div>
     </div>
   );
