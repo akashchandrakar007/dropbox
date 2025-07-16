@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import axios from 'axios';
 
 const API = 'http://localhost:5000/api/files';
@@ -7,6 +7,7 @@ const allowedTypes = ['text/plain', 'application/json', 'image/png', 'image/jpeg
 function App() {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef();
 
   const fetchFiles = async () => {
     const res = await axios.get(API);
@@ -26,6 +27,7 @@ function App() {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
     setSelectedFile(null);
+    fileInputRef.current.value="";
     fetchFiles();
   };
 
@@ -40,6 +42,7 @@ function App() {
         <div className="flex items-center gap-2 mb-6">
           <input
             type="file"
+            ref={fileInputRef}
             className="block w-full text-sm text-gray-500
                       file:mr-4 file:py-2 file:px-4
                       file:rounded-full file:border-0
