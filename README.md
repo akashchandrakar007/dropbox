@@ -23,6 +23,3 @@ In the project backend directory, add .env file and update MONGO_URI=mongodb://l
 
 ### `MONGO_URI=mongodb://localhost:27017/dropbox`
 
-
-
-/*******  1f75935a-883a-4c29-a11b-1e1d38eef967  *******/
